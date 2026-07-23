@@ -1,0 +1,230 @@
+/* ==========================================================
+   dashboard.css — Dashboard-specific styles
+   ========================================================== */
+
+.dashboard-shell {
+  padding: 32px 0 80px;
+}
+
+.welcome-card {
+  background: var(--gradient-brand);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-card::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: -60px;
+  right: -60px;
+}
+
+/* ---------- Upload Dropzone ---------- */
+.dropzone {
+  border: 2.5px dashed var(--primary-blue-light);
+  border-radius: var(--radius-lg);
+  background: rgba(59, 130, 246, 0.04);
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.dropzone:hover,
+.dropzone.dragover {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--primary-blue);
+}
+
+.dropzone-icon {
+  font-size: 2.6rem;
+  color: var(--primary-blue);
+  margin-bottom: 12px;
+}
+
+.upload-progress-wrap {
+  margin-top: 20px;
+  display: none;
+}
+
+/* ---------- Skeleton Loading ---------- */
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 37%, #e2e8f0 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease-in-out infinite;
+  border-radius: 10px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+.skeleton-line { height: 14px; margin-bottom: 10px; }
+.skeleton-card { height: 120px; }
+
+/* ---------- Health Score Gauge ---------- */
+.health-score-ring {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.health-score-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-blue);
+}
+
+/* ---------- Risk Badge ---------- */
+.risk-badge {
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.risk-low { background: rgba(22, 163, 74, 0.12); color: var(--success-green); }
+.risk-moderate { background: rgba(217, 119, 6, 0.12); color: var(--warning-yellow); }
+.risk-high { background: rgba(220, 38, 38, 0.12); color: var(--danger-red); }
+
+/* ---------- Test Result Cards ---------- */
+.test-card {
+  border-radius: var(--radius-md);
+  background: var(--bg-white);
+  box-shadow: var(--shadow-soft);
+  padding: 20px;
+  margin-bottom: 16px;
+  border-left: 5px solid var(--border-light);
+}
+
+.test-card.status-green { border-left-color: var(--success-green); }
+.test-card.status-yellow { border-left-color: var(--warning-yellow); }
+.test-card.status-red { border-left-color: var(--danger-red); }
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.status-dot.green { background: var(--success-green); }
+.status-dot.yellow { background: var(--warning-yellow); }
+.status-dot.red { background: var(--danger-red); }
+
+.test-values {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Recent Reports List ---------- */
+.recent-report-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-white);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 12px;
+  transition: var(--transition-fast);
+}
+
+.recent-report-item:hover {
+  transform: translateX(4px);
+}
+
+/* ---------- Language / Voice Controls ---------- */
+.lang-toggle-group {
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+}
+
+.lang-toggle-group .btn {
+  border: none;
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.voice-btn {
+  border-radius: 999px;
+  border: 1px solid var(--primary-blue);
+  color: var(--primary-blue);
+  background: transparent;
+  padding: 8px 18px;
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+
+.voice-btn:hover,
+.voice-btn.speaking {
+  background: var(--primary-blue);
+  color: #fff;
+}
+
+/* ---------- Chart Card ---------- */
+.chart-card {
+  border-radius: var(--radius-lg);
+  background: var(--bg-white);
+  box-shadow: var(--shadow-soft);
+  padding: 24px;
+}
+
+/* ---------- Extra AI Tools ---------- */
+.tool-card {
+  border-radius: var(--radius-md);
+  background: var(--bg-white);
+  box-shadow: var(--shadow-soft);
+  padding: 22px;
+  height: 100%;
+  transition: var(--transition-fast);
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ---------- Timeline (History page) ---------- */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--border-light);
+  border-radius: 3px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -32px;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gradient-brand);
+  border: 3px solid var(--bg-light);
+}

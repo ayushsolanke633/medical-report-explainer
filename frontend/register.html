@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Register — MedExplain AI</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/auth.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo"><i class="bi bi-heart-pulse-fill"></i></div>
+    <h3 class="auth-title">Create Your Account</h3>
+    <p class="auth-subtitle">Start understanding your medical reports today</p>
+
+    <form id="registerForm" novalidate>
+      <div class="floating-input">
+        <input type="text" id="regName" placeholder=" " required minlength="2" />
+        <label for="regName">Full name</label>
+        <div class="field-error" id="regNameError">Please enter your full name.</div>
+      </div>
+
+      <div class="floating-input">
+        <input type="email" id="regEmail" placeholder=" " required />
+        <label for="regEmail">Email address</label>
+        <div class="field-error" id="regEmailError">Please enter a valid email address.</div>
+      </div>
+
+      <div class="floating-input">
+        <input type="password" id="regPassword" placeholder=" " required minlength="6" />
+        <label for="regPassword">Password</label>
+        <div class="field-error" id="regPasswordError">Password must be at least 6 characters.</div>
+      </div>
+
+      <div class="floating-input">
+        <input type="password" id="regConfirmPassword" placeholder=" " required minlength="6" />
+        <label for="regConfirmPassword">Confirm password</label>
+        <div class="field-error" id="regConfirmPasswordError">Passwords do not match.</div>
+      </div>
+
+      <button type="submit" class="btn btn-brand w-100 mt-2" id="registerSubmitBtn">
+        <span id="registerSpinner" class="spinner-border spinner-border-sm me-2" style="display:none;"></span>
+        Create Account
+      </button>
+    </form>
+
+    <div class="auth-divider">Already a member?</div>
+    <div class="auth-footer-link">
+      Already have an account? <a href="login.html">Login</a>
+    </div>
+    <div class="auth-footer-link mt-2">
+      <a href="index.html"><i class="bi bi-arrow-left"></i> Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("regName");
+    const email = document.getElementById("regEmail");
+    const password = document.getElementById("regPassword");
+    const confirmPassword = document.getElementById("regConfirmPassword");
+    let valid = true;
+
+    toggleError("regNameError", name.value.trim().length < 2);
+    if (name.value.trim().length < 2) valid = false;
+
+    const emailValid = email.value.includes("@") && email.value.length >= 5;
+    toggleError("regEmailError", !emailValid);
+    if (!emailValid) valid = false;
+
+    toggleError("regPasswordError", password.value.length < 6);
+    if (password.value.length < 6) valid = false;
+
+    const passwordsMatch = password.value === confirmPassword.value;
+    toggleError("regConfirmPasswordError", !passwordsMatch);
+    if (!passwordsMatch) valid = false;
+
+    if (!valid) return;
+
+    const submitBtn = document.getElementById("registerSubmitBtn");
+    const spinner = document.getElementById("registerSpinner");
+    submitBtn.disabled = true;
+    spinner.style.display = "inline-block";
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.value.trim(),
+          email: email.value.trim(),
+          password: password.value,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showToast(data.detail || "Registration failed.", "error");
+        return;
+      }
+
+      setToken(data.access_token);
+      showToast("Account created! Redirecting to your dashboard...", "success");
+      setTimeout(() => (window.location.href = "dashboard.html"), 600);
+    } catch (err) {
+      showToast("Network error. Is the backend server running?", "error");
+    } finally {
+      submitBtn.disabled = false;
+      spinner.style.display = "none";
+    }
+  });
+
+  function toggleError(id, show) {
+    document.getElementById(id).classList.toggle("visible", show);
+  }
+
+  if (isLoggedIn()) {
+    window.location.href = "dashboard.html";
+  }
+</script>
+</body>
+</html>
